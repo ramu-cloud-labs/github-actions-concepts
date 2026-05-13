@@ -1,6 +1,8 @@
 name: Concurrency-Test-Workflow
 
-on: [push]
+on:
+    #push
+    workflow_dispatch:
 
 concurrency:
     # This creates a unique ID like "Concurrency-Test-Workflow-main"

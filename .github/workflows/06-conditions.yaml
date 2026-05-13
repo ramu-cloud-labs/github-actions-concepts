@@ -1,6 +1,8 @@
 name: Conditions-Demo-Fixed
 
-on: [push]
+on:
+    #push
+    workflow_dispatch:
 
 jobs:
     logic-check:
