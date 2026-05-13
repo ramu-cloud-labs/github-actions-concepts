@@ -1,5 +1,8 @@
 name: self hosted
-on: [push] # Triggers the workflow on every push to the repository
+on:
+  #push
+  workflow_dispatch:
+
 
 
 jobs:
