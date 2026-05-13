@@ -1,0 +1,26 @@
+name: Understanding-Expressions
+
+on:
+    push:
+        branches:
+            - "main"
+    pull_request:
+        branches:
+            - "main"
+    workflow_dispatch:
+
+jobs:
+    explore-expressions:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Print Basic Info
+              run: |
+                  echo "The OS running this is : ${{ runner.os }}"
+                  echo "The Event that triggered this: ${{ github.event_name }}"
+                  echo "The person who started this: ${{ github.actor }}"
+            - name: conditional step
+              if: ${{ github.event_name == 'workflow_dispatch'}}
+              run: echo "you clicked the manual button"
+
+            - name: Deep Dive into Github Context
+              run: echo "Full github context data --> ${{toJson(github)}}"
