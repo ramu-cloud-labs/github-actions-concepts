@@ -1,14 +1,15 @@
 name: self hosted
+
 on:
-  #push
   workflow_dispatch:
 
-
-
 jobs:
-  # Job name
   self-hosted:
-    runs-on: self-hosted
+    runs-on:
+      - self-hosted
+      - Linux
+      - X64
+
     steps:
       - name: Greet the world
-        run: echo "Hello, from self hosted runner new permissions added!" # The command to execute
+        run: echo "Hello from self hosted runner!"
