@@ -1,0 +1,20 @@
+name: Concurrency-Test-Workflow
+
+on: [push]
+
+concurrency:
+    # This creates a unique ID like "Concurrency-Test-Workflow-main"
+    group: ${{ github.workflow }}-${{ github.ref_name }}
+    # This kills the old run to make room for the new one
+    cancel-in-progress: true #if true presnt executing workflow get killed.
+
+jobs:
+    slow-job:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Simulating Work
+              run: |
+                  echo "Starting a slow process on branch: ${{ github.ref_name }}"
+                  echo "If you push again now, this run will be canceled!"
+                  sleep 60
+                  echo "Process Finished."
