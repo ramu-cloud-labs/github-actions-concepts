@@ -1,6 +1,8 @@
 name: Contexts-Master-Demo
 
-on: [push]
+on:
+    #push
+    workflow_dispatch:
 
 # 1. GLOBAL SCOPE: Available to all jobs
 env:

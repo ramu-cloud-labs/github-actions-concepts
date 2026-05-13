@@ -3,21 +3,21 @@ name: Conditions-Demo-Fixed
 on: [push]
 
 jobs:
-  logic-check:
-    runs-on: ubuntu-latest
-    steps:
-      # SCENARIO 1: Exact Match
-      - name: Main Branch Only Task
-        if: ${{ github.ref_name == 'main' }}
-        run: echo "SUCCESS: Running production-only logic on 'main' branch."
+    logic-check:
+        runs-on: ubuntu-latest
+        steps:
+            # SCENARIO 1: Exact Match
+            - name: Main Branch Only Task
+              if: github.ref_name == 'main'
+              run: echo "Running production-only logic on 'main' branch."
 
-      # SCENARIO 2: Pattern Match (Fixed Syntax)
-      - name: Feature Branch Only Task
-        # Use startsWith for wildcards/patterns
-        if: ${{ startsWith(github.ref_name, 'feature-') }}
-        run: echo "SUCCESS: Detected a feature branch ($GITHUB_REF_NAME). Running experimental logic."
+            # SCENARIO 2: Pattern Match (Fixed Syntax)
+            - name: Feature Branch Only Task
+              # Use startsWith for wildcards/patterns
+              if: startsWith(github.ref_name, 'feature-')
+              run: echo "Detected a feature branch ${{ github.ref_name }}. Running experimental logic."
 
-      # SCENARIO 3: Negative Match
-      - name: Not Main Branch
-        if: ${{ github.ref_name != 'main' }}
-        run: echo "This runs on every branch EXCEPT main."
+            # SCENARIO 3: Negative Match
+            - name: Not Main Branch
+              if: github.ref_name != 'main'
+              run: echo "This runs on every branch except main."
