@@ -1,0 +1,52 @@
+name: Contexts-Master-Demo
+
+on: [push]
+
+# 1. GLOBAL SCOPE: Available to all jobs
+env:
+    PROJECT: "roboshop"
+    ENV_TYPE: "dev"
+
+jobs:
+    # JOB 1: Generating Data
+    github-context:
+        runs-on: ubuntu-latest
+        # Mapping step outputs to job outputs for other jobs to see
+        outputs:
+            release-version: ${{ steps.versioning.outputs.version }}
+
+        steps:
+            - name: Step 1 - Generate Version
+              id: versioning
+              run: |
+                  echo "version=1.0.0-${{ github.run_id }}" >> $GITHUB_OUTPUT
+                  echo "Setting a dynamic version."
+
+            - name: Step 2 - Create Temporary Env
+              # This only lasts for the REST of this specific job
+              run: echo "SESSION_ID=999" >> $GITHUB_ENV
+
+            - name: Step 3 - Verify Local Data
+              run: |
+                  echo "Project: $PROJECT"
+                  echo "Session: $SESSION_ID"
+                  echo "Step Output: ${{ steps.versioning.outputs.version }}"
+
+    # JOB 2: Consuming Data from Job 1
+    deploy:
+        needs: github-context # Crucial: This job waits for Job 1
+        runs-on: ubuntu-latest
+        steps:
+            - name: Print Data from Previous Job
+              run: |
+                  echo "Deploying Project: $PROJECT"
+                  echo "Using Version: ${{ needs.github-context.outputs.release-version }}"
+
+    # JOB 3: Independent Job (Runs in parallel with Job 1)
+    scan:
+        runs-on: ubuntu-latest
+        steps:
+            - name: System Audit
+              run: |
+                  echo "Runner OS: ${{ runner.os }}"
+                  echo "Job Context JSON: ${{ toJson(job) }}"
