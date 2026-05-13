@@ -1,0 +1,34 @@
+name: LogLevel-Deep-Dive
+
+on:
+    workflow_dispatch:
+        inputs:
+            logLevel:
+                description: "Set the verbosity of the logs"
+                required: true
+                default: "info"
+                type: choice
+                options:
+                    - info
+                    - warning
+                    - debug
+
+jobs:
+    logging-test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Report Selection
+              # This is where the variable is "injected" into your command
+              run: echo "The user chose to run this automation in ${{ inputs.logLevel }} mode."
+
+            - name: Debug Mode Only
+              # This step ONLY runs if the user specifically picked 'debug'
+              if: ${{ inputs.logLevel == 'debug' }}
+              run: |
+                  echo "DUMPING SYSTEM SECRETS AND PATHS FOR DEBUGGING..."
+                  echo "Current Path: $PATH"
+                  echo "Runner Workspace: ${{ github.workspace }}"
+
+            - name: Standard Info
+              if: ${{ inputs.logLevel == 'info' }}
+              run: echo "System is running normally. No issues to report."
