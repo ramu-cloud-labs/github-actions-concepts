@@ -1,0 +1,28 @@
+name: Triggers
+
+on:
+    # Trigger 1: Pull Requests to release branches
+    pull_request:
+        types: [opened, reopened]
+        branches:
+            - "releases/**"
+
+    # Trigger 2: Direct pushes to main (Uncommented for your practice)
+    # push:
+    #     branches:
+    #         - "main"
+
+    # Trigger 3: Manual trigger (Added so you can click "Run" in GitHub)
+    workflow_dispatch:
+
+jobs:
+    trigger:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Log Trigger Event
+              run: echo "The workflow was successfully triggered by a GitHub event!"
+
+            - name: Environment Check
+              run: |
+                  echo "Running on: ${{ runner.os }}"
+                  echo "Triggered by: ${{ github.event_name }}"
