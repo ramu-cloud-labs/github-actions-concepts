@@ -8,4 +8,4 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Greet the world
-        run: echo "Hello, from self hosted runner new runner!" # The command to execute
+        run: echo "Hello, from self hosted runner new permissions added!" # The command to execute
